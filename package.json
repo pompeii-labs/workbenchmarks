@@ -1,0 +1,24 @@
+{
+    "name": "workbenchmark",
+    "private": true,
+    "type": "module",
+    "bin": {
+        "workbenchmark": "./workbenchmark.ts"
+    },
+    "scripts": {
+        "check": "bun workbenchmark.ts check",
+        "format": "biome check --write .",
+        "lint": "biome check .",
+        "prepare": "husky",
+        "test": "bun test lib",
+        "typecheck": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.5.8",
+        "@commitlint/cli": "^21.2.2",
+        "@commitlint/config-conventional": "^21.2.2",
+        "@types/bun": "^1.4.2",
+        "husky": "^9.1.7",
+        "typescript": "5.9.2"
+    }
+}
