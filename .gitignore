@@ -1,0 +1,7 @@
+node_modules/
+docker/wb
+docker/wb.version
+results/
+.work/
+.image-cache/
+tasks/*/references/*-built/
