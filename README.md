@@ -5,9 +5,33 @@ Run the same natural-language request with a plain coding agent and with a
 expertise), grade the result by running it, and compare working results,
 time, tokens, and cost per working result.
 
-The published numbers on workbenches.dev come from this repository. The
-methodology, the results, the caveats, and the per-task fail reasons are
-in [METHODOLOGY.md](./METHODOLOGY.md).
+## Results
+
+**Same model, same spend: 36 working results with Workbenches, 20 without.**
+
+| | Working | Model spend | Dollars per working result |
+| --- | --- | --- | --- |
+| Plain | 20 of 40 | $10.59 | $0.53 |
+| Workbench | **36 of 40** | $10.64 | **$0.30** |
+
+| Tab | Plain | Workbench |
+| --- | --- | --- |
+| Ship a Godot game | 5 of 10, $0.45 each | **9 of 10, $0.19 each** |
+| Build on Lux | 5 of 10, $0.80 each | **9 of 10, $0.47 each** |
+| Zero-downtime migration | 4 of 10, $0.61 each | **8 of 10, $0.32 each** |
+| Make it fast | 6 of 10, $0.31 each | **10 of 10, $0.22 each** |
+
+Both arms run the same agent (OpenCode 1.18) on the same model
+(`openai/gpt-5.6-terra` through OpenRouter); the only difference is the
+Workbench. Eight tasks, two per tab, five attempts per task and arm. Both
+arms get the identical request in the identical starting project. Every
+result is graded by scripts that run it; there is no judge model. Dollars
+per working result counts every attempt's cost, failures included.
+
+Plain was cheaper per working result on two tasks, search and
+column rename. The per-task results, every Workbench failure, and what the
+benchmark does not show are in [METHODOLOGY.md](./METHODOLOGY.md). The
+same numbers are on [workbenches.dev](https://workbenches.dev/benchmarks).
 
 ## Quick start
 
