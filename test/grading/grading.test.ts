@@ -117,7 +117,8 @@ const verdict = (
     evidence: 'Executed a probe',
 });
 
-// Archives through a real container, so it needs a Docker engine.
+// Archives through a real container, so it needs a Docker engine, and may
+// first pull its alpine image: allow well past bun's 5 s default.
 test.skipIf(!Bun.which('docker'))(
     'submission archive excludes node_modules and task-declared paths, not unrelated directories',
     () => {
@@ -155,7 +156,8 @@ test.skipIf(!Bun.which('docker'))(
         const content = Bun.spawnSync(['tar', '-xOzf', archive, './other/data.txt']);
         expect(content.exitCode).toBe(0);
         expect(content.stdout.toString()).toBe('kept');
-    }
+    },
+    60_000
 );
 
 test('missing coverage is inconclusive; practices do not change working status', () => {
