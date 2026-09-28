@@ -3,7 +3,7 @@ import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-const policy = join(import.meta.dir, 'docker-policy.sh');
+const policy = join(import.meta.dir, '../../docker/docker-policy.sh');
 
 async function invoke(args: string[], network = 'host') {
     const directory = mkdtempSync(join(tmpdir(), 'workbenchmark-policy-'));

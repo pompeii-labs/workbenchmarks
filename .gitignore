@@ -1,6 +1,6 @@
 node_modules/
-lib/runtime-assets/wb
-lib/runtime-assets/wb.version
+docker/wb
+docker/wb.version
 results/
 .work/
 .image-cache/

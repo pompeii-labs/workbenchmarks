@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { isAbsolute, join } from 'node:path';
-import { renderMonitor } from './monitor.ts';
-import { identifier } from './spec.ts';
+import { identifier } from '../core/spec.ts';
+import { renderMonitor } from '../results/monitor.ts';
 
 export interface RemoteTarget {
     ssh: string;

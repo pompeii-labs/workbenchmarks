@@ -6,8 +6,8 @@ import {
     writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
-import { modelSlug } from './spec.ts';
-import type { TrialResult } from './trial.ts';
+import { modelSlug } from '../core/spec.ts';
+import type { TrialResult } from '../execution/trial.ts';
 
 /** Which campaign a merged cell's attempts came from, and how many there are. */
 export interface Source {

@@ -4,30 +4,30 @@
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 import {
+    type Paths,
+    preloadImages,
+    quote,
+    removeTrial,
+    startDaemon,
+} from '../core/runtime.ts';
+import { parseGrade, prompt, type TaskSpec, type Verdict } from '../core/spec.ts';
+import {
     AGENT_IMAGE,
     ENGINE_IMAGE,
     InfraError,
     json,
     retainNativeTrace,
     runContainer,
-} from './container.ts';
-import { evaluationRuntimeScript } from './evaluation-runtime.ts';
-import { retainGradingArtifacts } from './grading-artifacts.ts';
-import { type Metrics, parseEvents } from './metrics.ts';
+} from '../execution/container.ts';
+import { evaluationRuntimeScript } from '../execution/evaluation-runtime.ts';
 import {
     packageCommand,
     prepareEvaluationRuntime,
     stageChecks,
     stagePackage,
-} from './packaging.ts';
-import {
-    type Paths,
-    preloadImages,
-    quote,
-    removeTrial,
-    startDaemon,
-} from './runtime.ts';
-import { parseGrade, prompt, type TaskSpec, type Verdict } from './spec.ts';
+} from '../execution/packaging.ts';
+import { type Metrics, parseEvents } from '../results/metrics.ts';
+import { retainGradingArtifacts } from './grading-artifacts.ts';
 
 export function gateStatus(code: number, stdout: string): Verdict['status'] {
     if (code === 0) return 'pass';

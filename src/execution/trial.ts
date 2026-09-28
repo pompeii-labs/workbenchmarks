@@ -13,6 +13,33 @@ import {
 } from 'node:fs';
 import { join } from 'node:path';
 import {
+    docker,
+    type Paths,
+    preloadImages,
+    quote,
+    removeStaged,
+    removeTrial,
+    removeWork,
+    startDaemon,
+} from '../core/runtime.ts';
+import {
+    type Arm,
+    identifier,
+    loadTask,
+    modelSlug,
+    prompt,
+    type TaskSpec,
+    trialName,
+    type Verdict,
+} from '../core/spec.ts';
+import {
+    checkCommand,
+    grade,
+    submissionArchiveCommand,
+    tally,
+} from '../grading/grading.ts';
+import { emptyMetrics, type Metrics, parseEvents } from '../results/metrics.ts';
+import {
     AGENT_IMAGE,
     DEFAULT_MODEL,
     ENGINE_IMAGE,
@@ -23,8 +50,6 @@ import {
     retainNativeTrace,
     runContainer,
 } from './container.ts';
-import { checkCommand, grade, submissionArchiveCommand, tally } from './grading.ts';
-import { emptyMetrics, type Metrics, parseEvents } from './metrics.ts';
 import {
     packageCommand,
     pinModel,
@@ -32,34 +57,7 @@ import {
     stagePackage,
     stagePlainControl,
 } from './packaging.ts';
-import {
-    docker,
-    type Paths,
-    preloadImages,
-    quote,
-    removeStaged,
-    removeTrial,
-    removeWork,
-    startDaemon,
-} from './runtime.ts';
-import {
-    type Arm,
-    identifier,
-    loadTask,
-    modelSlug,
-    prompt,
-    type TaskSpec,
-    trialName,
-    type Verdict,
-} from './spec.ts';
 
-export {
-    AGENT_IMAGE,
-    DEFAULT_MODEL,
-    ENGINE_IMAGE,
-    fingerprint,
-    InfraError,
-} from './container.ts';
 export {
     checkCommand,
     gateStatus,
@@ -67,7 +65,14 @@ export {
     gradingBrief,
     submissionArchiveCommand,
     tally,
-} from './grading.ts';
+} from '../grading/grading.ts';
+export {
+    AGENT_IMAGE,
+    DEFAULT_MODEL,
+    ENGINE_IMAGE,
+    fingerprint,
+    InfraError,
+} from './container.ts';
 export { pinModel, stagePlainControl } from './packaging.ts';
 
 export interface TrialResult {

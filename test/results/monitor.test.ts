@@ -2,8 +2,8 @@ import { afterEach, expect, test } from 'bun:test';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { campaignSnapshot, renderMonitor } from './monitor.ts';
-import { trialName } from './spec.ts';
+import { trialName } from '../../src/core/spec.ts';
+import { campaignSnapshot, renderMonitor } from '../../src/results/monitor.ts';
 
 const MODEL = 'vendor/m';
 const roots: string[] = [];

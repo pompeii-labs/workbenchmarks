@@ -9,21 +9,7 @@ import {
 } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { parseArgs } from 'node:util';
-import { retainCampaignSource } from './lib/campaign-source.ts';
-import { monitorCampaign } from './lib/monitor.ts';
-import {
-    rememberRemote,
-    runRemote,
-    savedRemote,
-    validateRemote,
-} from './lib/remote.ts';
-import {
-    loadResults,
-    mergeCampaigns,
-    writeReport,
-    writeReportFiles,
-} from './lib/report.ts';
-import { docker, exec, type Paths } from './lib/runtime.ts';
+import { docker, exec, type Paths } from './src/core/runtime.ts';
 import {
     type Arm,
     identifier,
@@ -31,7 +17,8 @@ import {
     loadTask,
     modelSlug,
     trialName,
-} from './lib/spec.ts';
+} from './src/core/spec.ts';
+import { retainCampaignSource } from './src/execution/campaign-source.ts';
 import {
     AGENT_IMAGE,
     DEFAULT_MODEL,
@@ -41,10 +28,23 @@ import {
     regrade,
     runTrial,
     runtimeSmoke,
-} from './lib/trial.ts';
+} from './src/execution/trial.ts';
+import {
+    rememberRemote,
+    runRemote,
+    savedRemote,
+    validateRemote,
+} from './src/remote/remote.ts';
+import { monitorCampaign } from './src/results/monitor.ts';
+import {
+    loadResults,
+    mergeCampaigns,
+    writeReport,
+    writeReportFiles,
+} from './src/results/report.ts';
 
 const bench = dirname(Bun.fileURLToPath(import.meta.url));
-const runtimeAssets = join(bench, 'lib', 'runtime-assets');
+const runtimeAssets = join(bench, 'docker');
 function printReport(directory: string) {
     writeReport(directory);
     console.log(readFileSync(join(directory, 'matrix.md'), 'utf8'));

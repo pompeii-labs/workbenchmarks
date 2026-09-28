@@ -10,6 +10,8 @@ import {
     writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
+import { exec, type Paths, socketPath } from '../core/runtime.ts';
+import { identifier, type TaskSpec } from '../core/spec.ts';
 import {
     DEFAULT_MODEL,
     ENGINE_IMAGE,
@@ -17,8 +19,6 @@ import {
     InfraError,
     runContainer,
 } from './container.ts';
-import { exec, type Paths, socketPath } from './runtime.ts';
-import { identifier, type TaskSpec } from './spec.ts';
 
 export function stagePackage(paths: Paths, name: string, work: string) {
     identifier(name, 'workbench');
@@ -63,10 +63,7 @@ export function stagePlainControl(
 ) {
     const pkg = join(work, '.workbenches', 'plain-control');
     mkdirSync(pkg, { recursive: true });
-    cpSync(
-        join(paths.bench, 'lib/runtime-assets/agent.Dockerfile'),
-        join(pkg, 'Dockerfile')
-    );
+    cpSync(join(paths.bench, 'docker/agent.Dockerfile'), join(pkg, 'Dockerfile'));
     writeFileSync(join(pkg, 'instructions.md'), 'Follow the user request.\n');
     cpSync(
         join(paths.workbenches, 'grader', 'opencode.json'),

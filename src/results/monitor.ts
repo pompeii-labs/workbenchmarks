@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { type Arm, identifier, modelSlug, trialName } from '../core/spec.ts';
 import { parseEvents } from './metrics.ts';
-import { type Arm, identifier, modelSlug, trialName } from './spec.ts';
 
 const terminal = new Set(['passed', 'failed', 'inconclusive', 'infra_error']);
 const tools = new Set([

@@ -8,7 +8,7 @@ import {
     savedRemote,
     sshCommand,
     validateRemote,
-} from './remote.ts';
+} from '../../src/remote/remote.ts';
 
 const roots: string[] = [];
 afterEach(() => {

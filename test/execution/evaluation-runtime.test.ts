@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test';
 import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { evaluationRuntimeScript } from './evaluation-runtime.ts';
+import { evaluationRuntimeScript } from '../../src/execution/evaluation-runtime.ts';
 
 test('evaluation helper preserves command arguments and omits provider credentials and actor assets', () => {
     const dir = mkdtempSync(join(tmpdir(), 'wb-evaluation-test-'));

@@ -10,7 +10,7 @@ import {
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { retainGradingArtifacts } from './grading-artifacts.ts';
+import { retainGradingArtifacts } from '../../src/grading/grading-artifacts.ts';
 
 test('retains nested screenshots, probes and metadata after source cleanup', () => {
     const root = mkdtempSync(join(tmpdir(), 'wbm-evidence-'));

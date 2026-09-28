@@ -12,9 +12,9 @@ import {
     writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
-import { exec, sh, socketPath } from './runtime.ts';
-import type { Arm } from './spec.ts';
-import { diagnosticTools } from './trace.ts';
+import { exec, sh, socketPath } from '../core/runtime.ts';
+import type { Arm } from '../core/spec.ts';
+import { diagnosticTools } from '../results/trace.ts';
 
 export const DEFAULT_MODEL = 'openai/gpt-5.6-terra';
 export const AGENT_IMAGE = 'workbenchmark-agent:dev';
@@ -175,7 +175,7 @@ export async function retainNativeTrace(
             return;
         }
         const script = join(work, 'trace-export.ts');
-        cpSync(join(import.meta.dir, 'trace.ts'), script);
+        cpSync(join(import.meta.dir, '../results/trace.ts'), script);
         const result = await runContainer({
             name: 'trace-export',
             daemon,

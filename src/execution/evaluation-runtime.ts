@@ -1,4 +1,4 @@
-import { quote } from './runtime.ts';
+import { quote } from '../core/runtime.ts';
 
 /** A neutral, credential-free command boundary; never launches an actor model. */
 export function evaluationRuntimeScript(

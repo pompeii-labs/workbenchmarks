@@ -10,8 +10,8 @@ import {
     writeFileSync,
 } from 'node:fs';
 import { basename, join } from 'node:path';
-import type { Paths } from './runtime.ts';
-import { identifier, type TaskSpec } from './spec.ts';
+import type { Paths } from '../core/runtime.ts';
+import { identifier, type TaskSpec } from '../core/spec.ts';
 import { fingerprint } from './trial.ts';
 
 const ignored = new Set(['node_modules', '.git', 'results', '.work', '.image-cache']);
@@ -27,7 +27,8 @@ export function retainCampaignSource(
     const members = new Map<string, string>([
         ['workbenchmark.ts', join(paths.bench, 'workbenchmark.ts')],
         ['package.json', join(paths.bench, 'package.json')],
-        ['lib', join(paths.bench, 'lib')],
+        ['src', join(paths.bench, 'src')],
+        ['docker', join(paths.bench, 'docker')],
         ['.workbenches/grader', join(paths.workbenches, 'grader')],
     ]);
     for (const task of tasks) {

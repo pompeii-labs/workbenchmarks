@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import type { Arm } from './spec.ts';
+import type { Arm } from '../core/spec.ts';
 
 export interface Metrics {
     elapsed_ms: number;

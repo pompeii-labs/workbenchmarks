@@ -13,10 +13,10 @@ import {
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { retainCampaignSource } from './campaign-source.ts';
-import type { Paths } from './runtime.ts';
-import type { TaskSpec } from './spec.ts';
-import { fingerprint } from './trial.ts';
+import type { Paths } from '../../src/core/runtime.ts';
+import type { TaskSpec } from '../../src/core/spec.ts';
+import { retainCampaignSource } from '../../src/execution/campaign-source.ts';
+import { fingerprint } from '../../src/execution/trial.ts';
 
 const temporary: string[] = [];
 afterEach(() => {
@@ -45,7 +45,8 @@ function fixture() {
     const files = new Map([
         [join(paths.bench, 'workbenchmark.ts'), 'export const cli = true;'],
         [join(paths.bench, 'package.json'), '{"type":"module"}'],
-        [join(paths.bench, 'lib', 'runtime.ts'), 'export const runtime = true;'],
+        [join(paths.bench, 'src', 'runtime.ts'), 'export const runtime = true;'],
+        [join(paths.bench, 'docker', 'agent.Dockerfile'), 'FROM node:22-bookworm-slim'],
         [join(paths.tasks, 'example', 'task.json'), JSON.stringify(task)],
         [join(paths.tasks, 'example', 'prompt.md'), 'Make a useful page.'],
         [join(paths.tasks, 'example', 'checks', 'check.sh'), '#!/bin/sh\nexit 0\n'],
@@ -67,7 +68,7 @@ function fixture() {
 
 test('snapshot restores custom task/package roots, executable modes, and the exact harness', () => {
     const { root, paths, task, directory } = fixture();
-    const excluded = join(paths.bench, 'lib', '.git');
+    const excluded = join(paths.bench, 'src', '.git');
     mkdirSync(excluded);
     writeFileSync(join(excluded, 'config'), 'not protocol source');
     retainCampaignSource(paths, [task], directory);
@@ -89,7 +90,7 @@ test('snapshot restores custom task/package roots, executable modes, and the exa
     expect(
         readFileSync(join(restored, '.workbenches/expert/workbench.yml'), 'utf8')
     ).toContain('name: expert');
-    expect(existsSync(join(restored, 'lib/.git'))).toBe(false);
+    expect(existsSync(join(restored, 'src/.git'))).toBe(false);
     expect(
         readdirSync(directory).some((name) => name.startsWith('.source-build-'))
     ).toBe(false);
@@ -108,7 +109,7 @@ test('protocol source cannot follow symlinks into unrelated files', () => {
     const { root, paths, task, directory } = fixture();
     const external = join(root, 'external');
     writeFileSync(external, 'private');
-    symlinkSync(external, join(paths.bench, 'lib', 'link'));
+    symlinkSync(external, join(paths.bench, 'src', 'link'));
     expect(() => retainCampaignSource(paths, [task], directory)).toThrow('symlink');
     expect(readFileSync(external, 'utf8')).toBe('private');
     expect(readdirSync(directory)).toEqual([]);

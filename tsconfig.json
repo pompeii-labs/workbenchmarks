@@ -9,5 +9,5 @@
         "noEmit": true,
         "types": ["bun"]
     },
-    "include": ["workbenchmark.ts", "lib/**/*.ts"]
+    "include": ["workbenchmark.ts", "src/**/*.ts", "test/**/*.ts"]
 }

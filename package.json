@@ -10,7 +10,7 @@
         "format": "biome check --write .",
         "lint": "biome check .",
         "prepare": "husky",
-        "test": "bun test lib",
+        "test": "bun test test",
         "typecheck": "tsc --noEmit"
     },
     "devDependencies": {
