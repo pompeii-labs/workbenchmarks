@@ -9,6 +9,10 @@ import {
 } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { parseArgs } from 'node:util';
+import { RegistryApi } from './src/cloud/api.ts';
+import { postDirectory, runPost } from './src/cloud/executor.ts';
+import { loadPost } from './src/cloud/post.ts';
+import { buildPostData, loadAttempts } from './src/cloud/report.ts';
 import { docker, exec, type Paths } from './src/core/runtime.ts';
 import {
     type Arm,
@@ -29,6 +33,7 @@ import {
     runTrial,
     runtimeSmoke,
 } from './src/execution/trial.ts';
+import { grade } from './src/grading/grading.ts';
 import {
     rememberRemote,
     runRemote,
@@ -80,8 +85,14 @@ const help = `workbenchmark: compare the same request with and without a Workben
   report --campaign name                  print summary and write matrix.json / matrix.md
   report --campaigns a,b,c [--out name]   merge campaigns cell-by-cell (last one wins per cell)
   monitor --campaign name [--once] [--json]  watch actor/grader progress; read-only
+  post-run --post id [--parallel 3]       run a post's arms as workbenches.dev cloud runs, grade here
+  post-report --post id                   write the post's page data, post-data.json
   regrade --campaign name [--tasks a,b]    re-run the gates on saved submissions
   calibrate [--tasks a,b] [--reference name]  grade every reference solution (or one)
+
+Posts live in posts/<id>/post.json (--posts-dir). post-run needs
+WORKBENCHES_API_KEY (an organization key with runs:read and runs:write;
+WORKBENCHES_API_URL overrides the API) and the same Docker as regrade.
 
 Options: --arms plain,workbench --models vendor/a,vendor/b --tasks-dir --workbenches-dir --results-dir
          --work-dir --image-cache --out --help
@@ -106,6 +117,8 @@ export async function main(args = process.argv.slice(2)) {
             reps: { type: 'string', default: '3' },
             parallel: { type: 'string', default: '2' },
             campaign: { type: 'string' },
+            post: { type: 'string' },
+            'posts-dir': { type: 'string' },
             campaigns: { type: 'string' },
             out: { type: 'string' },
             reference: { type: 'string' },
@@ -140,6 +153,8 @@ export async function main(args = process.argv.slice(2)) {
             'monitor',
             'regrade',
             'calibrate',
+            'post-run',
+            'post-report',
         ].includes(command)
     )
         throw new Error(`Unknown command: ${positionals.join(' ')}. Use --help.`);
@@ -182,6 +197,40 @@ export async function main(args = process.argv.slice(2)) {
         return join(paths.results, values.campaign);
     };
     const log = (message: string) => console.error(message);
+    if (command === 'post-run' || command === 'post-report') {
+        if (!values.post) throw new Error('--post is required');
+        const post = loadPost(
+            resolve(values['posts-dir'] ?? join(bench, 'posts')),
+            values.post
+        );
+        const directory = postDirectory(paths, post);
+        if (command === 'post-run') {
+            const task = loadTask(paths.tasks, post.task);
+            await runPost(
+                paths,
+                post,
+                task,
+                { api: RegistryApi.fromEnvironment(), grade, log },
+                positiveInteger(values.parallel!, '--parallel')
+            );
+        }
+        const data = buildPostData(post, loadAttempts(directory));
+        writeFileSync(
+            join(directory, 'post-data.json'),
+            JSON.stringify(data, null, 2) + '\n'
+        );
+        console.table(
+            data.arms.map((arm) => ({
+                arm: arm.id,
+                works: `${arm.works}/${arm.attempts}`,
+                'cost/working': arm.cost_per_working_result?.toFixed(2) ?? '',
+                'checked work': arm.checked_own_work ?? '',
+                'gate runs': arm.mean_gate_runs?.toFixed(1) ?? '',
+            }))
+        );
+        console.log(`Post data: ${join(directory, 'post-data.json')}`);
+        return;
+    }
     if (command === 'monitor') {
         await monitorCampaign(campaignDir(), { once: values.once, json: values.json });
         return;
