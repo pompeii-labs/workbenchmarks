@@ -25,6 +25,8 @@ export interface ArmSummary {
     median_tool_calls: number | null;
     checked_own_work: number | null;
     mean_gate_runs: number | null;
+    /** The command-line tools the arm declared, so unused ones read as a share. */
+    tools: string[];
     unused_tools: string[];
 }
 
@@ -114,6 +116,7 @@ function summarize(arm: PostSpec['arms'][number], attempts: PostAttempt[]): ArmS
                 ? behaviors.reduce((sum, b) => sum + (b?.gate_runs ?? 0), 0) /
                   behaviors.length
                 : null,
+        tools: arm.behavior?.tools ?? [],
         unused_tools: (arm.behavior?.tools ?? []).filter((tool) =>
             behaviors.length
                 ? behaviors.every((b) => b?.unused_tools.includes(tool))

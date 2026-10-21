@@ -444,6 +444,7 @@ test('a post runs every attempt in the cloud, grades its patch, and resumes', as
                 cost_per_working_result: 0.375,
                 checked_own_work: 2,
                 mean_gate_runs: 1,
+                tools: ['tgcheck', 'tgplaytest'],
                 unused_tools: ['tgplaytest'],
                 median_wall_ms: 300_000,
                 workbench_version: '0.2.3',
