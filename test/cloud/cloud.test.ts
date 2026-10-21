@@ -423,8 +423,9 @@ test('a post runs every attempt in the cloud, grades its patch, and resumes', as
         const data = buildPostData(
             post(),
             loadAttempts(join(paths.results, 'posts', 'runner-game')),
-            new Date(0)
+            { prompt: 'Build a three-lane runner.', now: new Date(0) }
         );
+        expect(data.post.prompt).toBe('Build a three-lane runner.');
         const [vanilla, withBench] = data.arms;
         expect(vanilla).toEqual(
             expect.objectContaining({

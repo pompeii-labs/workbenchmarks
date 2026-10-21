@@ -214,7 +214,12 @@ export async function main(args = process.argv.slice(2)) {
                 positiveInteger(values.parallel!, '--parallel')
             );
         }
-        const data = buildPostData(post, loadAttempts(directory));
+        const promptFile = join(directory, 'prompt.md');
+        const data = buildPostData(post, loadAttempts(directory), {
+            prompt: existsSync(promptFile)
+                ? readFileSync(promptFile, 'utf8').trim()
+                : '',
+        });
         writeFileSync(
             join(directory, 'post-data.json'),
             JSON.stringify(data, null, 2) + '\n'

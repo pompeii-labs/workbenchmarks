@@ -30,7 +30,8 @@ export interface ArmSummary {
 
 export interface PostData {
     version: 1;
-    post: { id: string; title: string; task: string; attempts: number };
+    /** `prompt` is the exact request every attempt received. */
+    post: { id: string; title: string; task: string; attempts: number; prompt: string };
     fixture: PostSpec['fixture'];
     generated_at: string;
     arms: ArmSummary[];
@@ -49,7 +50,7 @@ export function loadAttempts(directory: string): PostAttempt[] {
 export function buildPostData(
     post: PostSpec,
     attempts: PostAttempt[],
-    now = new Date()
+    { prompt = '', now = new Date() }: { prompt?: string; now?: Date } = {}
 ): PostData {
     return {
         version: 1,
@@ -58,6 +59,7 @@ export function buildPostData(
             title: post.title,
             task: post.task,
             attempts: post.attempts,
+            prompt,
         },
         fixture: post.fixture,
         generated_at: now.toISOString(),
