@@ -37,19 +37,20 @@ export interface PostSpec {
     verificationPrograms?: string[];
 }
 
+/**
+ * What counts as the agent checking its own result. A package script matches
+ * under any package manager, so `build` covers `bun run build`, `npm run build`,
+ * and `pnpm build`; anything else must match the program name exactly.
+ */
 export const DEFAULT_VERIFICATION_PROGRAMS = [
-    'npm run build',
-    'npm test',
-    'npm run test',
-    'npm run dev',
-    'npm run preview',
-    'bun test',
-    'bun run build',
-    'bun run dev',
-    'pnpm build',
-    'pnpm test',
-    'yarn build',
-    'yarn test',
+    'build',
+    'check',
+    'test',
+    'typecheck',
+    'lint',
+    'dev',
+    'preview',
+    'start',
     'vite',
     'serve',
     'http-server',

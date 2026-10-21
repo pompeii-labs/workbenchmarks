@@ -161,6 +161,22 @@ test('behavior reads programs, the gate, and unused tools from shell events', ()
         gate_passes: 1,
         unused_tools: ['tgplaytest'],
     });
+    // A package script counts under any package manager; installing is not checking.
+    const checked = (program: string) =>
+        readBehavior([shell('a', [program])], undefined, DEFAULT_VERIFICATION_PROGRAMS)
+            .checked_own_work;
+    expect(
+        [
+            'bun run check',
+            'bun test',
+            'pnpm build',
+            'npm run typecheck',
+            'yarn dev',
+        ].every(checked)
+    ).toBe(true);
+    expect(['bun install', 'npm install', 'bunx biome', 'ls'].some(checked)).toBe(
+        false
+    );
     // An engine without scrubbed programs leaves behavior unavailable, never guessed.
     const old = readBehavior(
         [

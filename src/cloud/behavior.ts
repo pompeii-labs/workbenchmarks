@@ -55,9 +55,16 @@ export function readBehavior(
         shell_calls: shellCalls,
         turns,
         programs,
-        checked_own_work: programs.some((p) => verification.has(p) || gates.has(p)),
+        checked_own_work: programs.some(
+            (p) => verification.has(p) || verification.has(script(p)) || gates.has(p)
+        ),
         gate_runs: gateRuns,
         gate_passes: gateRuns && gateExitKnown ? gatePasses : gateRuns ? null : 0,
         unused_tools: (spec?.tools ?? []).filter((tool) => !programs.includes(tool)),
     };
+}
+
+/** The script a package manager runs: `bun run check` and `pnpm check` are both `check`. */
+function script(program: string): string {
+    return /^(?:npm|bun|pnpm|yarn)(?: run)? (\S+)$/.exec(program)?.[1] ?? program;
 }
