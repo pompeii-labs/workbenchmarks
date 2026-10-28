@@ -1,0 +1,235 @@
+/* Shared Workbench design tokens for the registry, publishing, and administration. */
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
+@import '@fontsource-variable/red-hat-mono';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+    color-scheme: light;
+
+    /* Warm cream ground, matching the registry. Every neutral shares its hue. */
+    --background: #f2e9d8;
+    --foreground: oklch(0.19 0.01 70);
+    --card: oklch(0.97 0.012 85);
+    --card-foreground: oklch(0.19 0.01 70);
+    --popover: oklch(0.97 0.012 85);
+    --popover-foreground: oklch(0.19 0.01 70);
+    --primary: oklch(0.19 0.01 70);
+    --primary-foreground: oklch(0.97 0.012 85);
+    --secondary: oklch(0.9 0.025 80);
+    --secondary-foreground: oklch(0.19 0.01 70);
+    --muted: oklch(0.9 0.025 80);
+    --muted-foreground: oklch(0.45 0.02 70);
+    --accent: oklch(0.88 0.035 78);
+    --accent-foreground: oklch(0.19 0.01 70);
+    --destructive: oklch(0.56 0.16 30);
+    --border: oklch(0.82 0.03 78);
+    --input: oklch(0.82 0.03 78);
+    --ring: oklch(0.4 0.03 70);
+    /* Terminal: copyable commands. A dark gray warmed toward the cream ground, near-white text. Same in both modes. */
+    --terminal: oklch(0.27 0.012 75);
+    --terminal-foreground: oklch(0.97 0.012 85);
+    --terminal-muted: oklch(0.72 0.02 80);
+    --chart-1: oklch(0.63 0.06 245);
+    --chart-2: oklch(0.56 0.13 35);
+    --chart-3: oklch(0.6 0.09 120);
+    --chart-4: oklch(0.8 0.06 80);
+    --chart-5: oklch(0.19 0.01 70);
+    --radius: 0.5rem;
+
+    /* Bench characters: flat fills from the reference, one ink for every stroke. */
+    --bench-ink: oklch(0.16 0.012 260);
+    --bench-eye: oklch(0.99 0.003 240);
+    --bench-blue: oklch(0.63 0.065 245);
+    --bench-brick: oklch(0.56 0.13 35);
+    --bench-olive: oklch(0.6 0.085 120);
+    --bench-tan: oklch(0.8 0.065 80);
+    --bench-orange: oklch(0.7 0.15 55);
+    /* Soft fields: the stage each bench stands on. */
+    --bench-blue-soft: oklch(0.9 0.03 245);
+    --bench-brick-soft: oklch(0.9 0.045 35);
+    --bench-olive-soft: oklch(0.9 0.04 120);
+    --bench-tan-soft: oklch(0.93 0.03 80);
+    --bench-orange-soft: oklch(0.91 0.045 55);
+
+    --font-sans:
+        'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'Red Hat Mono Variable', ui-monospace, monospace;
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+
+    min-height: 100dvh;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+    caret-color: var(--ring);
+    accent-color: var(--ring);
+    -webkit-text-size-adjust: 100%;
+}
+
+html[data-theme='dark'] {
+    color-scheme: dark;
+
+    --background: oklch(0.22 0.015 260);
+    --foreground: oklch(0.94 0.008 240);
+    --card: oklch(0.26 0.015 260);
+    --card-foreground: oklch(0.94 0.008 240);
+    --popover: oklch(0.26 0.015 260);
+    --popover-foreground: oklch(0.94 0.008 240);
+    --primary: oklch(0.94 0.008 240);
+    --primary-foreground: oklch(0.22 0.015 260);
+    --secondary: oklch(0.3 0.015 260);
+    --secondary-foreground: oklch(0.94 0.008 240);
+    --muted: oklch(0.3 0.015 260);
+    --muted-foreground: oklch(0.74 0.015 260);
+    --accent: oklch(0.34 0.05 245);
+    --accent-foreground: oklch(0.94 0.008 240);
+    --destructive: oklch(0.7 0.16 30);
+    --border: oklch(0.36 0.015 260);
+    --input: oklch(0.36 0.015 260);
+    --ring: oklch(0.72 0.07 245);
+    --chart-1: oklch(0.68 0.065 245);
+    --chart-2: oklch(0.62 0.13 35);
+    --chart-3: oklch(0.65 0.085 120);
+    --chart-4: oklch(0.8 0.065 80);
+    --chart-5: oklch(0.94 0.008 240);
+
+    --bench-ink: oklch(0.16 0.012 260);
+    --bench-eye: oklch(0.99 0.003 240);
+    --bench-blue: oklch(0.68 0.065 245);
+    --bench-brick: oklch(0.62 0.13 35);
+    --bench-olive: oklch(0.65 0.085 120);
+    --bench-tan: oklch(0.8 0.065 80);
+    --bench-orange: oklch(0.72 0.15 55);
+    --bench-blue-soft: oklch(0.33 0.05 245);
+    --bench-brick-soft: oklch(0.34 0.07 35);
+    --bench-olive-soft: oklch(0.34 0.05 120);
+    --bench-tan-soft: oklch(0.36 0.04 80);
+    --bench-orange-soft: oklch(0.35 0.07 55);
+}
+
+@theme inline {
+    --text-display: clamp(2.625rem, 1.25rem + 4vw, 4.5rem);
+    --text-display--line-height: 0.98;
+    --text-display--letter-spacing: -0.03em;
+    --text-display--font-weight: 700;
+    --text-title: clamp(1.625rem, 1.25rem + 1.2vw, 2.25rem);
+    --text-title--line-height: 1.1;
+    --text-title--letter-spacing: -0.02em;
+    --text-title--font-weight: 600;
+    --text-lede: 1.1875rem;
+    --text-lede--line-height: 1.45;
+    --text-body: 1.0625rem;
+    --text-body--line-height: 1.55;
+    --text-small: 0.875rem;
+    --text-small--line-height: 1.45;
+
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-input: var(--input);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-terminal: var(--terminal);
+    --color-terminal-foreground: var(--terminal-foreground);
+    --color-terminal-muted: var(--terminal-muted);
+    --color-bench-ink: var(--bench-ink);
+    --color-bench-eye: var(--bench-eye);
+    --color-bench-blue: var(--bench-blue);
+    --color-bench-brick: var(--bench-brick);
+    --color-bench-olive: var(--bench-olive);
+    --color-bench-tan: var(--bench-tan);
+    --color-bench-orange: var(--bench-orange);
+    --color-bench-blue-soft: var(--bench-blue-soft);
+    --color-bench-brick-soft: var(--bench-brick-soft);
+    --color-bench-olive-soft: var(--bench-olive-soft);
+    --color-bench-tan-soft: var(--bench-tan-soft);
+    --color-bench-orange-soft: var(--bench-orange-soft);
+    --stroke-ink: 2px;
+}
+
+/* Keycap tokens for public pages. console.css overrides them on the dashboard. */
+:root {
+    --key-border: oklch(0.7 0.04 78);
+    --key-panel: oklch(0.985 0.01 85);
+    --key-field: oklch(0.985 0.01 85);
+    --key-press: oklch(0.86 0.035 80);
+    --key-ink: var(--foreground);
+    --key-ink-text: var(--background);
+    --key-ink-hover: oklch(0.28 0.012 70);
+    --key-ink-edge: oklch(0.08 0 0);
+    --key-ink-glow: var(--bench-blue);
+    --key-focus: var(--ring);
+    --key-danger: var(--destructive);
+}
+html[data-theme='dark'] {
+    --key-border: oklch(0.46 0.02 260);
+    --key-panel: oklch(0.28 0.015 260);
+    --key-field: oklch(0.2 0.015 260);
+    --key-press: oklch(0.2 0.015 260);
+    --key-ink-hover: oklch(1 0 0);
+    --key-ink-edge: oklch(0.72 0.01 240);
+}
+
+:root {
+    --sidebar: var(--card);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--secondary);
+    --sidebar-accent-foreground: var(--foreground);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--ring);
+}
+@theme inline {
+    --font-sans:
+        'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'Red Hat Mono Variable', ui-monospace, monospace;
+}
+html,
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+}
+html {
+    scroll-behavior: smooth;
+}
+::selection {
+    background: var(--bench-orange);
+    color: var(--bench-ink);
+}
+:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+}
+code,
+kbd,
+pre {
+    font-family: var(--font-mono);
+    font-feature-settings: 'calt' 0;
+}
+.tabular {
+    font-variant-numeric: tabular-nums;
+}
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}

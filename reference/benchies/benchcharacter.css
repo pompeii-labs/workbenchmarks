@@ -1,0 +1,200 @@
+.benchBench {
+    display: block;
+    overflow: visible;
+}
+.benchBenchSlot {
+    height: var(--bench-bar-height, 2.5rem);
+    width: var(--bar-extent);
+    min-width: 3.5rem;
+}
+.benchBenchBar {
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
+    min-width: 3.5rem;
+    animation: benchBarGrow 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--bar-delay)
+        both;
+}
+.benchBenchBar.benchStill {
+    animation: none;
+}
+.benchBarBody {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+.benchBarFace {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow: visible;
+}
+.benchBarTag {
+    position: absolute;
+    top: 50%;
+    left: 0.875rem;
+    translate: 0 -50%;
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    color: var(--bench-ink);
+    white-space: nowrap;
+}
+.benchTagPlate {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+.benchTagText {
+    position: relative;
+}
+@keyframes benchBarGrow {
+    from {
+        width: 0;
+    }
+}
+.benchInk {
+    stroke: var(--bench-ink);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.benchEye {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: benchBlink var(--blink-period) ease-in-out var(--blink-delay)
+        infinite;
+}
+.benchDouble .benchEye {
+    animation-name: benchBlinkTwice;
+}
+/* A landing plank blinks once on impact, on top of its regular timer. The one-shot has no fill so the timer shows again when it ends. */
+.benchLanding .benchEye {
+    animation:
+        benchBlink var(--blink-period) ease-in-out var(--blink-delay) infinite,
+        benchBlinkOnce 0.3s ease-in-out var(--land-delay) 1;
+}
+.benchLanding .benchDouble .benchEye {
+    animation-name: benchBlinkTwice, benchBlinkOnce;
+}
+.benchPupil {
+    animation: benchGlance var(--glance-period) ease-in-out var(--glance-delay)
+        infinite;
+}
+@keyframes benchBlinkOnce {
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+    45% {
+        transform: scaleY(0.08);
+    }
+}
+@keyframes benchBlink {
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+    3% {
+        transform: scaleY(0.08);
+    }
+    6% {
+        transform: scaleY(1);
+    }
+}
+@keyframes benchBlinkTwice {
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+    2% {
+        transform: scaleY(0.08);
+    }
+    4% {
+        transform: scaleY(1);
+    }
+    7% {
+        transform: scaleY(0.08);
+    }
+    9.5% {
+        transform: scaleY(1);
+    }
+}
+/* The cape flaps from where it ties on at the front of the plank. */
+.benchCape {
+    transform-box: fill-box;
+    transform-origin: 100% 40%;
+    animation: benchCapeFlap 0.7s ease-in-out infinite alternate;
+    animation-play-state: var(--bench-loop-state, running);
+}
+/* Wind squiggles stream backward off a flying plank. */
+.benchWind {
+    stroke-dasharray: 55 45;
+    animation: benchWind 0.9s linear infinite;
+    animation-play-state: var(--bench-loop-state, running);
+}
+@keyframes benchWind {
+    from {
+        stroke-dashoffset: 0;
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 0.45;
+    }
+    to {
+        stroke-dashoffset: -100;
+        opacity: 0.9;
+    }
+}
+@keyframes benchCapeFlap {
+    from {
+        transform: skewY(-5deg) scale(1, 1);
+    }
+    to {
+        transform: skewY(6deg) scale(0.94, 0.9);
+    }
+}
+@keyframes benchGlance {
+    0%,
+    28%,
+    100% {
+        transform: translate(0, 0);
+    }
+    32%,
+    52% {
+        transform: translate(3.5px, 1px);
+    }
+    56%,
+    74% {
+        transform: translate(0, 0);
+    }
+    78%,
+    88% {
+        transform: translate(-3px, 0.5px);
+    }
+    92% {
+        transform: translate(0, 0);
+    }
+}
+.benchBench .benchEyes .benchEye,
+.benchBench .benchEyes .benchPupil {
+    animation-play-state: var(--bench-loop-state, running);
+}
+@media (prefers-reduced-motion: reduce) {
+    .benchBenchBar,
+    .benchEyes .benchEye,
+    .benchDouble .benchEye,
+    .benchLanding .benchEye,
+    .benchLanding .benchDouble .benchEye,
+    .benchEyes .benchPupil,
+    .benchCape,
+    .benchWind {
+        animation: none;
+    }
+}
